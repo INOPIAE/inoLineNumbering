@@ -4,7 +4,7 @@ The codes add line numbering only to a single line of code. Code lines with _ ar
 
 The line numbering can be used for error handling with the Erl fuction
 
-` msgbox Err.Number & " " & Err.Description & " occured in line " & Erl()`
+` msgbox Err.Number & " " & Err.Description & " occured in line " & Erl`
 
 The code is inspired by Nepumuk.
 
