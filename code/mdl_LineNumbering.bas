@@ -38,7 +38,6 @@ Public Function AddLineNumbersToComponent(vbaComponent As VBIDE.VBComponent, Opt
             If Trim$(.Lines(intLine, 1)) <> "" And Left$(Trim$(.Lines(intLine, 1)), 1) <> "'" Then
                 If .ProcOfLine(intLine, 0) <> strModulname Then
                     strModulname = .ProcOfLine(intLine, 4)
-                    intLineCounter = 0
                     
                     If Left$(Trim$(StrReverse(.Lines(intLine, 1))), 1) = "_" Then
                         bolUnderscore = True
