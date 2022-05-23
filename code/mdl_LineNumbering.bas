@@ -7,25 +7,27 @@ Option Explicit
 ' strVBProjects - name of vba project not file name
 ' strModuleName - name of code module
 ' vbaComponent - a VBIDE.VBComponent object
-' blnNoNumber = True removes line numbering only
+' blnNoNumber = True - removes line numbering only
+' blnEachModule = True - numbering lines for each procedure seperatly starting with 1, False - numbering lines for whole module
 
-Public Function AddLineNumbersToWorkbook(strVBProjects As String, Optional blnNoNumber As Boolean = False) As Long
+Public Function AddLineNumbersToWorkbook(strVBProjects As String, Optional blnNoNumber As Boolean = False, Optional blnEachProcedure As Boolean = False) As Long
     ' returns total line numbers added to code in vba project
+    Dim intModulCount As Integer
     Dim lngCount As Long
     With Application.VBE.VBProjects(strVBProjects)
         For intModulCount = 1 To .VBComponents.Count
-            lngCount = lngCount + AddLineNumbersToComponent(.VBComponents(intModulCount))
+            lngCount = lngCount + AddLineNumbersToComponent(.VBComponents(intModulCount), blnNoNumber, blnEachProcedure)
         Next
     End With
     AddLineNumbersToWorkbook = lngCount
 End Function
 
-Public Function AddLineNumbersToSingleCodeObject(strVBProjects As String, strModuleName As String, Optional blnNoNumber As Boolean = False) As Long
+Public Function AddLineNumbersToSingleCodeObject(strVBProjects As String, strModuleName As String, Optional blnNoNumber As Boolean = False, Optional blnEachProcedure As Boolean = False) As Long
     ' returns total line numbers added to code of a single code object identified by the module name
-    AddLineNumbersToSingleCodeObject = AddLineNumbersToComponent(Application.VBE.VBProjects(strVBProjects).VBComponents(strModuleName), blnNoNumber)
+    AddLineNumbersToSingleCodeObject = AddLineNumbersToComponent(Application.VBE.VBProjects(strVBProjects).VBComponents(strModuleName), blnNoNumber, blnEachProcedure)
 End Function
 
-Public Function AddLineNumbersToComponent(vbaComponent As VBIDE.VBComponent, Optional blnNoNumber As Boolean = False) As Long
+Public Function AddLineNumbersToComponent(vbaComponent As VBIDE.VBComponent, Optional blnNoNumber As Boolean = False, Optional blnEachProcedure As Boolean = False) As Long
     ' returns total line numbers added to code of a single code object as passed to the function
     Dim intModulCount As Integer, intLine As Integer
     Dim intColumn As Integer, intLineCounter As Integer
@@ -38,7 +40,9 @@ Public Function AddLineNumbersToComponent(vbaComponent As VBIDE.VBComponent, Opt
             If Trim$(.Lines(intLine, 1)) <> "" And Left$(Trim$(.Lines(intLine, 1)), 1) <> "'" Then
                 If .ProcOfLine(intLine, 0) <> strModulname Then
                     strModulname = .ProcOfLine(intLine, 4)
-                    
+                    If blnEachProcedure = True Then
+                        intLineCounter = 0
+                    End If
                     If Left$(Trim$(StrReverse(.Lines(intLine, 1))), 1) = "_" Then
                         bolUnderscore = True
                     Else

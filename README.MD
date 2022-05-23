@@ -2,9 +2,7 @@
 
 The codes add line numbering only to a single line of code. Code lines with _ are counted as one.
 
-The line numbering can be used for error handling with the Erl fuction
-
-` msgbox Err.Number & " " & Err.Description & " occured in line " & Erl`
+The line numbering can be used for error handling with the Erl function.
 
 The code is inspired by Nepumuk.
 
@@ -20,3 +18,32 @@ Returns total line numbers added to code of a single code object as passed to th
 
 ## LoadVBAReference()
 Needed to set refernce to Microsoft Visual Basic for Applications Extensibility 5.3 library if not availbale in Tools - References
+
+# Code for error handling
+## Simple code for error handling
+```
+Sub ProcedureName()
+    On Error Goto ErrHandling
+
+    ...
+
+    Exit Sub
+ErrHandling:
+    msgbox Err.Number & " " & Err.Description & " occured in line " & Erl
+End Sub
+```
+
+## Advanced code for error handling for each procedure seprately
+```
+Sub ProcedureName()
+    On Error Goto ErrHandling
+    Dim ProcName as string
+    ProcName = "ProcedureName"
+
+    ...
+
+    Exit Sub
+ErrHandling:
+    msgbox Err.Number & " " & Err.Description & " occured in line " & Erl & " of procedure: " & ProcName 
+End Sub
+```
