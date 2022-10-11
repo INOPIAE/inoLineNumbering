@@ -29,7 +29,7 @@ Sub ProcedureName()
 
     Exit Sub
 ErrHandling:
-    msgbox Err.Number & " " & Err.Description & " occured in line " & Erl
+    MsgBox Err.Number & " " & Err.Description & " occured in line " & Erl
 End Sub
 ```
 
@@ -44,6 +44,6 @@ Sub ProcedureName()
 
     Exit Sub
 ErrHandling:
-    msgbox Err.Number & " " & Err.Description & " occured in line " & Erl & " of procedure: " & ProcName 
+    MsgBox Err.Number & " " & Err.Description & " occured in line " & Erl & " of procedure: " & ProcName 
 End Sub
 ```
